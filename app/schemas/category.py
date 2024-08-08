@@ -1,8 +1,8 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class CategoryBase(BaseModel):
-    name: str
+    name: str = Field(..., description="The name of the category.", example="Restaurant")
 
 
 class CategoryCreate(CategoryBase):
@@ -10,7 +10,7 @@ class CategoryCreate(CategoryBase):
 
 
 class Category(CategoryBase):
-    id: int
+    id: int = Field(..., description="Unique identifier for the category.", example=1)
 
     class Config:
         orm_mode = True

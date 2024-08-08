@@ -25,7 +25,23 @@ def create_location(location_in: LocationCreate, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail=ex.__str__())
 
 
-@router.get("/", response_model=List[Location])
+@router.get("/", response_model=List[Location],
+            summary="Get a list of locations",
+            description="Retrieve a list of all locations",
+            response_description="A list of locations.",
+            responses={
+                500: {
+                    "description": "Internal Server Error",
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "detail": "An unexpected error occurred."
+                            }
+                        }
+                    }
+                }
+            }
+            )
 def read_locations(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     locations = crud_location.location.get_multi(db, skip=skip, limit=limit)
     return locations
